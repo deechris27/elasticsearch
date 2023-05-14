@@ -19,23 +19,34 @@ import {
 } from "@elastic/react-search-ui-views";
 import "@elastic/react-search-ui-views/lib/styles/styles.css";
 import { SearchDriverOptions } from "@elastic/search-ui";
+import axios from 'axios';
 
 const connector = new AppSearchAPIConnector({
   searchKey: "search-wokxta15kv1ndur5ecpudhdw",
-  engineName: "national-parks-demo",
+  engineName: "searchpoc",
   endpointBase: "https://b81720545b184a168818feab4f7823f6.ent-search.us-central1.gcp.cloud.es.io"
 });
 
 const config: SearchDriverOptions = {
-  alwaysSearchOnInitialLoad: true,
+  alwaysSearchOnInitialLoad: false,
   apiConnector: connector,
   hasA11yNotifications: true,
   searchQuery: {
     result_fields: {
-      title: { raw: {} }
+      route: { raw: {} },
+      description: { raw: {}},
+      method: { raw: {}},
+      Header: {snippet: {}},
+      Schema: {raw:{}},
+      Error: {raw:{}}
     },
     search_fields: {
-      title: {}
+      route: {},
+      method:{},
+      Header:{},
+      Schema:{},
+      Error: {},
+      description: {}
     },
     disjunctiveFacets: [""],
     facets: {}
@@ -43,7 +54,6 @@ const config: SearchDriverOptions = {
 };
 
 function App() {
-  //const {test, setTest} = useState();
   return (
     <SearchProvider config={config}>
       <WithSearch
@@ -60,9 +70,7 @@ function App() {
                   sideContent={<div></div>}
                   bodyContent={
                     <Results
-                      titleField="title"
-                      urlField="nps_link"
-                      thumbnailField="image_url"
+                      titleField="route"
                       shouldTrackClickThrough
                     />
                   }
